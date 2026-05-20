@@ -342,6 +342,7 @@ strong { color: var(--text); }
   transition: color var(--t);
 }
 .hero-contacts a:hover { color: var(--red2); }
+.hero-contacts a svg { width: 14px; height: 14px; flex-shrink: 0; }
 .hc-sep { color: var(--muted2); }
 
 /* Social icons */
@@ -587,7 +588,7 @@ strong { color: var(--text); }
 .tl-item::before {
   content: '';
   position: absolute;
-  left: -29px; top: 20px;
+  left: -32px; top: 20px;
   width: 16px; height: 16px;
   border-radius: 50%;
   background: var(--red);
@@ -602,7 +603,12 @@ strong { color: var(--text); }
   cursor: pointer;
   overflow: hidden;
 }
-.tl-card:hover { transform: translateX(5px); box-shadow: -3px 0 0 var(--red), var(--shadow-md); }
+/* Override the generic .card:hover translateY — timeline cards slide right instead */
+.tl-card:hover {
+  transform: translateX(5px) !important;
+  box-shadow: -3px 0 0 var(--red), var(--shadow-md);
+  border-color: var(--border-hover);
+}
 
 .tl-header {
   display: flex; align-items: center; gap: 16px;
@@ -635,6 +641,7 @@ strong { color: var(--text); }
   font-size: 0.75rem; color: var(--muted2);
   display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
 }
+.tl-date-loc svg { width: 13px; height: 13px; flex-shrink: 0; }
 
 .tl-badge {
   font-size: 0.68rem; font-weight: 700; padding: 3px 10px;

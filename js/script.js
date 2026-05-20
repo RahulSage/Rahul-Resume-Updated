@@ -434,9 +434,9 @@ function initHamburger() {
   });
 }
 
-/* ── 3-D card tilt ────────────────────────────────────────── */
+/* ── 3-D card tilt (skip timeline cards — they use translateX hover instead) */
 function initTilt() {
-  document.querySelectorAll('.card').forEach(function(card) {
+  document.querySelectorAll('.card:not(.tl-card)').forEach(function(card) {
     card.addEventListener('mousemove', function(e) {
       var r  = card.getBoundingClientRect();
       var rx = ((e.clientY - r.top  - r.height/2) / r.height) * -7;
