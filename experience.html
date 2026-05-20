@@ -1,142 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Rahul — Experience</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/flyonui@2.4.1/flyonui.min.css"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./css/style.css" />
-  </head>
-  <body>
-    <header class="top-nav" id="topNav">
-      <nav class="menu flex-row">
-        <a href="index.html" class="menu-item">Home</a>
-        <a href="summary.html" class="menu-item">Summary</a>
-        <a href="experience.html" class="menu-item active">Experience</a>
-        <a href="education.html" class="menu-item"
-          >Education &amp; Certification</a
-        >
-      </nav>
-    </header>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rahul — Experience</title>
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
 
-    <div class="content container min-h-screen">
-      <h1 class="section-title">Experience</h1>
+<div id="scroll-progress"></div>
 
-      <div class="thumb-grid">
-        <!-- NTT -->
-        <div class="movie-card big-card company" tabindex="0">
-          <img src="./assets/ntt-data.png" alt="NTT DATA" />
-          <div class="movie-card-body">
-            <h3>NTT DATA — Salesforce Developer / Team Lead</h3>
-            <p class="opacity-80">Nov 2023 – Present</p>
-            <div class="movie-details" hidden>
-              <ul class="list-disc mt-3 pl-5 space-y-2">
-                <li>
-                  Led a team of Salesforce developers in designing and
-                  implementing scalable solutions for contract management and
-                  partner collaboration.
-                </li>
-                <li>
-                  Directed end-to-end integration with DocuSign via REST APIs,
-                  automating contract execution and ensuring compliance for
-                  Third-Party Channel Contracts.
-                </li>
-                <li>
-                  Architected and delivered a Partner Portal using LWR sites and
-                  reusable LWC components, offering responsive UI, role-based
-                  access, and metadata-driven configurations.
-                </li>
-                <li>
-                  Guided team members on adopting best practices in Apex, LWC,
-                  and Flows while maintaining high-quality standards through
-                  peer reviews and CI/CD processes.
-                </li>
-                <li>
-                  Designed custom approval and workflow automation using Flows
-                  and Apex, reducing manual intervention and improving contract
-                  turnaround time.
-                </li>
-                <li>
-                  Collaborated with business stakeholders to translate
-                  functional requirements into scalable Salesforce solutions
-                  with measurable efficiency gains.
-                </li>
-              </ul>
-            </div>
+<header class="top-nav">
+  <a href="index.html" class="brand">R</a>
+  <nav class="menu">
+    <a href="index.html"      class="menu-item">Home</a>
+    <a href="summary.html"    class="menu-item">Summary</a>
+    <a href="experience.html" class="menu-item active">Experience</a>
+    <a href="education.html"  class="menu-item">Education &amp; Certs</a>
+  </nav>
+</header>
+
+<div class="page-content">
+  <h1 class="page-title">Experience</h1>
+
+  <!-- Timeline -->
+  <div class="timeline">
+
+    <!-- NTT DATA -->
+    <div class="timeline-item">
+      <div class="timeline-card open shine-wrap" data-open-default="true">
+        <div class="timeline-header">
+          <img src="./assets/ntt-data.png" alt="NTT DATA" class="company-logo" />
+          <div class="timeline-meta">
+            <h3>NTT DATA</h3>
+            <div class="tl-role">Salesforce Developer / Team Lead</div>
+            <div class="tl-date">📍 New Delhi &nbsp;·&nbsp; 🗓 Nov 2023 – Present</div>
           </div>
-          <div class="shine"></div>
+          <span class="tl-badge current">Current</span>
         </div>
-
-        <!-- Sapient -->
-        <div class="movie-card big-card company" tabindex="0">
-          <img src="./assets/publicis.avif" alt="Publicis Sapient" />
-          <div class="movie-card-body">
-            <h3>Publicis Sapient — Salesforce Developer</h3>
-            <p class="opacity-80">Mar 2022 – Nov 2023</p>
-            <div class="movie-details" hidden>
-              <ul class="list-disc mt-3 pl-5 space-y-2">
-                <li>
-                  Built Lightning Apps, Actions, and Flows integrated with Apex
-                  logic for enhanced UI interactivity and automation
-                </li>
-                <li>
-                  Implemented modular Roll Entry functionality using LWC + Apex,
-                  adhering to SOLID and design pattern principles.
-                </li>
-                <li>
-                  Developed asynchronous and batch Apex solutions to process
-                  large datasets efficiently.
-                </li>
-                <li>
-                  Participated in Agile sprints, contributing to design
-                  discussions and sprint planning for major feature rollouts
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="shine"></div>
+        <div class="expand-hint">
+          <span>Details</span>
+          <span class="arrow">▼</span>
         </div>
-
-        <!-- Genpact -->
-        <div class="movie-card big-card company" tabindex="0">
-          <img src="./assets/genpact.jpeg" alt="Genpact" />
-          <div class="movie-card-body">
-            <h3>Genpact — Salesforce Developer</h3>
-            <p class="opacity-80">2019 – 2022</p>
-            <div class="movie-details" hidden>
-              <ul class="list-disc mt-3 pl-5 space-y-2">
-                <li>
-                  Developed and maintained Apex classes, triggers, test classes,
-                  and LWC components for enterprise-grade CRM applications.
-                </li>
-                <li>
-                  Automated accounts receivable workflows, significantly
-                  improving dispute resolution timelines.
-                </li>
-                <li>
-                  Supported a PLM tool project, optimizing case management and
-                  tracking efficiency.
-                </li>
-                <li>
-                  Integrated Salesforce with external systems using Jitterbit
-                  for secure, bidirectional data synchronization.
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="shine"></div>
+        <div class="timeline-body">
+          <ul>
+            <li>Led a cross-functional team of <strong>5+ Salesforce developers</strong> delivering scalable contract management and partner collaboration solutions on tight enterprise deadlines.</li>
+            <li>Directed end-to-end DocuSign integration via REST APIs, automating the full contract lifecycle — reducing contract execution time by <strong>~40%</strong> for Third-Party Channel Contracts.</li>
+            <li>Architected and deployed a Partner Portal serving <strong>500+ external partners</strong> using LWR Sites and reusable Lightning Web Components (LWC), with role-based access control and metadata-driven UI configuration.</li>
+            <li>Established peer review standards and <strong>Salesforce DX CI/CD pipelines</strong> (GitHub Actions + scratch orgs), achieving 95%+ Apex test coverage across all delivery sprints.</li>
+            <li>Engineered custom approval workflows and Apex-triggered Flow automation, eliminating manual intervention and improving contract turnaround by <strong>3×</strong>.</li>
+            <li>Partnered with business stakeholders to translate complex requirements into governed, scalable Salesforce architectures — consistently delivering on-time with measurable productivity gains.</li>
+          </ul>
         </div>
       </div>
-      <div class="footer-glow"></div>
     </div>
 
-    <script src="./js/script.js"></script>
-  </body>
+    <!-- Publicis Sapient -->
+    <div class="timeline-item">
+      <div class="timeline-card shine-wrap">
+        <div class="timeline-header">
+          <img src="./assets/publicis.avif" alt="Publicis Sapient" class="company-logo" />
+          <div class="timeline-meta">
+            <h3>Publicis Sapient</h3>
+            <div class="tl-role">Salesforce Developer</div>
+            <div class="tl-date">📍 New Delhi &nbsp;·&nbsp; 🗓 Mar 2022 – Nov 2023</div>
+          </div>
+          <span class="tl-badge past">1 yr 9 mo</span>
+        </div>
+        <div class="expand-hint">
+          <span>Details</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="timeline-body">
+          <ul>
+            <li>Built <strong>15+ Lightning Apps</strong>, Quick Actions, and Flow automations tightly integrated with Apex triggers, elevating UI interactivity and reducing manual configuration overhead.</li>
+            <li>Implemented modular <strong>Role Entry module</strong> using LWC + Apex adhering to SOLID design principles — cutting code duplication by 40% and accelerating feature onboarding for new team members.</li>
+            <li>Developed asynchronous Queueable Apex and Batch Apex jobs processing <strong>100K+ records per run</strong>, staying within Salesforce Governor Limits with zero production incidents.</li>
+            <li>Participated in bi-weekly Agile sprints, driving design discussions and contributing to sprint planning that achieved consistent on-schedule major feature rollouts.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Genpact -->
+    <div class="timeline-item">
+      <div class="timeline-card shine-wrap">
+        <div class="timeline-header">
+          <img src="./assets/genpact.jpeg" alt="Genpact" class="company-logo" />
+          <div class="timeline-meta">
+            <h3>Genpact</h3>
+            <div class="tl-role">Salesforce Developer</div>
+            <div class="tl-date">📍 Gurugram &nbsp;·&nbsp; 🗓 Aug 2019 – Mar 2022</div>
+          </div>
+          <span class="tl-badge past">2 yr 8 mo</span>
+        </div>
+        <div class="expand-hint">
+          <span>Details</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="timeline-body">
+          <ul>
+            <li>Developed and maintained <strong>50+ Apex classes, triggers, test classes, and LWC components</strong> for enterprise-grade CRM applications supporting 1,000+ internal users.</li>
+            <li>Automated accounts receivable workflows using Salesforce Flow and Apex — reducing dispute resolution timelines by <strong>35%</strong> and accelerating collections cycles.</li>
+            <li>Optimised PLM tool case management using custom Apex and SOQL-tuned queries, improving case tracking efficiency by <strong>25%</strong>.</li>
+            <li>Integrated Salesforce with external ERP systems using <strong>Jitterbit</strong> middleware, enabling bi-directional synchronisation of <strong>10K+ records daily</strong> with zero data integrity issues.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /timeline -->
+</div><!-- /page-content -->
+
+<div class="footer-glow"></div>
+<footer class="footer">
+  <p>© 2025 <strong>Rahul</strong> &nbsp;·&nbsp;
+    <a href="mailto:rahulsage517@gmail.com">rahulsage517@gmail.com</a>
+  </p>
+</footer>
+
+<script src="./js/script.js"></script>
+</body>
 </html>

@@ -1,142 +1,170 @@
-// script.js - handles sticky header, row navigation, thumbnail interactions, and expand details
-document.addEventListener("DOMContentLoaded", function () {
-  // Sticky header show after hero
-  const sticky = document.getElementById("stickyHeader");
-  const hero = document.querySelector(".hero");
-  function checkSticky() {
-    if (!hero) return;
-    const h = hero.offsetHeight || 360;
-    if (window.scrollY > h - 80) {
-      sticky.classList.add("show");
-    } else {
-      sticky.classList.remove("show");
+// script.js — Netflix Resume Interactivity
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* ── Scroll progress bar ─────────────────────────────────── */
+  const progressBar = document.getElementById('scroll-progress');
+  if (progressBar) {
+    window.addEventListener('scroll', () => {
+      const doc = document.documentElement;
+      const pct = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
+      progressBar.style.width = pct + '%';
+    }, { passive: true });
+  }
+
+  /* ── Sticky header (index page only) ────────────────────── */
+  const sticky = document.getElementById('stickyHeader');
+  const hero   = document.querySelector('.hero');
+  if (sticky && hero) {
+    const check = () => {
+      if (window.scrollY > (hero.offsetHeight || 400) - 60) {
+        sticky.classList.add('show');
+      } else {
+        sticky.classList.remove('show');
+      }
+    };
+    check();
+    window.addEventListener('scroll', check, { passive: true });
+  }
+
+  /* ── Typewriter animation ────────────────────────────────── */
+  const typeEl = document.getElementById('typewriter');
+  if (typeEl) {
+    const words = typeEl.dataset.words ? typeEl.dataset.words.split('|') : [];
+    if (words.length) {
+      let wi = 0, ci = 0, deleting = false;
+      const cursor = document.createElement('span');
+      cursor.className = 'typewriter-cursor';
+      typeEl.after(cursor);
+
+      const tick = () => {
+        const word = words[wi];
+        if (deleting) {
+          typeEl.textContent = word.substring(0, --ci);
+          if (ci === 0) { deleting = false; wi = (wi + 1) % words.length; }
+          setTimeout(tick, 60);
+        } else {
+          typeEl.textContent = word.substring(0, ++ci);
+          if (ci === word.length) {
+            deleting = true;
+            setTimeout(tick, 1800);
+          } else {
+            setTimeout(tick, 100);
+          }
+        }
+      };
+      setTimeout(tick, 600);
     }
   }
-  checkSticky();
-  window.addEventListener("scroll", checkSticky);
-  window.addEventListener("resize", checkSticky);
 
-  // Row nav controls
-  document.querySelectorAll(".row-nav").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      const id = btn.getAttribute("data-target");
-      const dir = parseInt(btn.getAttribute("data-dir") || "1", 10);
-      const row = document.getElementById(id);
-      if (!row) return;
-      const offset = row.clientWidth * 0.6 * dir;
-      row.scrollBy({ left: offset, behavior: "smooth" });
+  /* ── Animated stat counters ──────────────────────────────── */
+  document.querySelectorAll('.stat-num[data-target]').forEach(el => {
+    const target = parseFloat(el.dataset.target);
+    const isFloat = el.dataset.target.includes('.');
+    const suffix  = el.dataset.suffix || '';
+    let current = 0;
+    const duration = 1200;
+    const steps = 40;
+    const step = target / steps;
+
+    const observer = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        observer.disconnect();
+        const interval = setInterval(() => {
+          current = Math.min(current + step, target);
+          el.textContent = (isFloat ? current.toFixed(1) : Math.round(current)) + suffix;
+          if (current >= target) clearInterval(interval);
+        }, duration / steps);
+      }
+    }, { threshold: 0.4 });
+    observer.observe(el);
+  });
+
+  /* ── Timeline card expand / collapse ────────────────────── */
+  document.querySelectorAll('.timeline-card').forEach(card => {
+    const header = card.querySelector('.timeline-header');
+    const hint   = card.querySelector('.expand-hint');
+    if (!header) return;
+
+    // Open first card by default on experience page
+    if (card.dataset.openDefault === 'true') card.classList.add('open');
+
+    [header, hint].forEach(el => {
+      if (!el) return;
+      el.addEventListener('click', () => {
+        const wasOpen = card.classList.contains('open');
+        // Close all others
+        document.querySelectorAll('.timeline-card').forEach(c => c.classList.remove('open'));
+        if (!wasOpen) card.classList.add('open');
+      });
     });
   });
 
-  // Drag to scroll for rows
-  document.querySelectorAll(".row").forEach((row) => {
-    let active = false,
-      startX,
-      scrollLeft;
-    row.addEventListener("pointerdown", (e) => {
-      active = true;
-      row.setPointerCapture(e.pointerId);
-      startX = e.pageX - row.offsetLeft;
-      scrollLeft = row.scrollLeft;
+  /* ── 3-D tilt on .netflix-card and .exp-card ─────────────── */
+  document.querySelectorAll('.netflix-card, .exp-card, .cert-badge').forEach(card => {
+    card.style.transformStyle = 'preserve-3d';
+    card.style.perspective = '600px';
+
+    card.addEventListener('mousemove', e => {
+      const r  = card.getBoundingClientRect();
+      const cx = r.left + r.width / 2;
+      const cy = r.top  + r.height / 2;
+      const rx = ((e.clientY - cy) / r.height) * -8;
+      const ry = ((e.clientX - cx) / r.width) * 8;
+      card.style.transform = `translateY(-5px) rotateX(${rx}deg) rotateY(${ry}deg)`;
     });
-    row.addEventListener("pointermove", (e) => {
-      if (!active) return;
-      const x = e.pageX - row.offsetLeft;
-      const walk = (x - startX) * 1.2;
-      row.scrollLeft = scrollLeft - walk;
-    });
-    row.addEventListener("pointerup", (e) => {
-      active = false;
-      row.releasePointerCapture(e.pointerId);
-    });
-    row.addEventListener("pointerleave", () => {
-      active = false;
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
     });
   });
 
-  // // Movie-card expand toggle - click to show details
-  // document.querySelectorAll(".movie-card").forEach((card) => {
-  //   card.addEventListener("click", () => {
-  //     const details = card.querySelector(".movie-details");
-  //     if (!details) return;
-  //     const showing = !details.hidden;
-  //     // hide all other details on page
-  //     document
-  //       .querySelectorAll(".movie-details")
-  //       .forEach((d) => (d.hidden = true));
-  //     if (showing) {
-  //       details.hidden = true;
-  //     } else {
-  //       details.hidden = false;
-  //       // smooth scroll card into view
-  //       card.scrollIntoView({ behavior: "smooth", block: "center" });
-  //     }
-  //   });
+  /* ── Fade-in on scroll ───────────────────────────────────── */
+  const fadeEls = document.querySelectorAll(
+    '.exp-card, .netflix-card, .cert-badge, .timeline-item, .summary-card, .edu-page-card, .cert-grid .cert-badge'
+  );
+  const fadeObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+        fadeObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
-  //   // small tilt effect on mouse move
-  //   card.addEventListener("mousemove", (ev) => {
-  //     const rect = card.getBoundingClientRect();
-  //     const x = ev.clientX - rect.left;
-  //     const y = ev.clientY - rect.top;
-  //     const cx = rect.width / 2,
-  //       cy = rect.height / 2;
-  //     const dx = (x - cx) / cx;
-  //     const dy = (y - cy) / cy;
-  //     card.style.transform = `rotateX(${(-dy * 4).toFixed(2)}deg) rotateY(${(
-  //       dx * 6
-  //     ).toFixed(2)}deg) translateY(-6px)`;
-  //   });
-  //   card.addEventListener("mouseleave", () => {
-  //     card.style.transform = "";
-  //   });
-  // });
+  fadeEls.forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(28px)';
+    el.style.transition = `opacity 0.5s ease ${i * 0.07}s, transform 0.5s ease ${i * 0.07}s`;
+    fadeObserver.observe(el);
+  });
 
-  // increase font size inside .netflix-card on hover by ~2px
-  document.querySelectorAll(".thumb, .card, .movie-card").forEach((el) => {
-    el.addEventListener("mouseenter", () => {
-      el.querySelectorAll("*").forEach((ch) => {
-        const computed = window.getComputedStyle(ch).fontSize;
-        if (computed) {
-          try {
-            const current = parseFloat(computed);
-            ch.style.transition = "font-size .18s ease";
-            ch.style.fontSize = current + 2 + "px";
-          } catch (e) {}
+  /* ── Skills filter (index page) ──────────────────────────── */
+  const filterBtns = document.querySelectorAll('.skill-filter-btn');
+  const allTags    = document.querySelectorAll('.tag[data-cat]');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const cat = btn.dataset.cat;
+      allTags.forEach(tag => {
+        if (cat === 'all' || tag.dataset.cat === cat) {
+          tag.style.opacity = '1';
+          tag.style.transform = 'scale(1)';
+        } else {
+          tag.style.opacity = '0.2';
+          tag.style.transform = 'scale(0.92)';
         }
       });
     });
-    el.addEventListener("mouseleave", () => {
-      el.querySelectorAll("*").forEach((ch) => {
-        ch.style.fontSize = "";
-      });
-    });
   });
-});
 
-// Create overlay element
-let overlay = document.createElement("div");
-overlay.className = "expanded-overlay";
-document.body.appendChild(overlay);
-
-document.addEventListener("click", function (e) {
-  let card = e.target.closest(".big-card");
-
-  // Close expanded card when clicking outside
-  if (!card && document.querySelector(".big-card.expanded")) {
-    document
-      .querySelectorAll(".movie-details")
-      .forEach((d) => (d.hidden = true));
-    document.querySelector(".big-card.expanded").classList.remove("expanded");
-    overlay.style.display = "none";
-
-    return;
-  }
-
-  // Expand card
-  if (card && !card.classList.contains("expanded")) {
-    let details = card.querySelector(".movie-details");
-    if (details) details.hidden = false;
-    card.classList.add("expanded");
-    overlay.style.display = "block";
-  }
+  /* ── Active nav link highlight ───────────────────────────── */
+  const page = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.menu-item').forEach(a => {
+    const href = a.getAttribute('href');
+    if (href === page || (page === '' && href === 'index.html')) {
+      a.classList.add('active');
+    }
+  });
 });
